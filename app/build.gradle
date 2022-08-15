@@ -1,0 +1,83 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+}
+apply from: '../dependencies.gradle'
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.app.sportnewz"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    kapt {
+        generateStubs = true
+    }
+    buildFeatures {
+        viewBinding = true
+        dataBinding true
+    }
+}
+
+dependencies {
+
+    implementation project(path: ':sportz-domain')
+    implementation project(path: ':sportz-data')
+
+    implementation androidx.coreKtx
+    implementation androidx.appCompat
+    implementation androidx.constraintlayout
+    implementation androidx.lifecycleExt
+    implementation google.material
+
+    //Activity extension, referring with  "by viewModels"
+    implementation androidx.activityKtx
+
+    //Coroutines
+    implementation kotlin.kotlinxCoroutines
+
+    //Hilt
+    implementation hilt.hiltAndroid
+    implementation androidx.swipeLayout
+    kapt hilt.kaptHiltAndroidCompiler
+
+    //For Hilt support for ViewModel
+    implementation hilt.hiltViewModel
+    kapt hilt.kaptHiltCompiler
+
+    // Navigation
+    implementation androidx.navigationFragment
+    implementation androidx.navigationUi
+
+    // optional - Test helpers for LiveData
+    testImplementation testing.unitTestingCore
+
+    // Coroutine Testing
+    testImplementation testing.unitTestingCoroutines
+    testImplementation testing.unitTestingMockitoCore
+
+    testImplementation testing.unitTestingJunit
+}
